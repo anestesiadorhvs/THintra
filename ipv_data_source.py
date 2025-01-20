@@ -40,33 +40,55 @@ class ipv_data_source:
 		self.p_bsa=""
 		
 		# definicion signos vitales
+		#PANI
 		self.p_nbp_sys=0
 		self.p_nbp_dias=0
 		self.p_nbp_mean=0
 		self.p_nbp_pulse=0
 		self.p_nbp_time=["",""]
-		
+		#spo2
 		self.p_spo2=0
-		self.p_spo2_pulse=0
-		
+		self.p_spo2_pulse = 0
+		self.p_spo2_perfusion = 0
+		#ecg		
 		self.p_ecg_pulse=0
-		
+		self.p_ecg_ev=0
+		self.p_ecg_I = 0
+		self.p_ecg_II = 0
+		self.p_ecg_III = 0
+		self.p_ecg_aVR = 0
+		self.p_ecg_aVL = 0
+		self.p_ecg_aVF = 0
+		self.p_ecg_V = 0
+		self.p_ecg_MCL = 0
+		self.p_ecg_QT = 0
+		self.p_ecg_QTc = 0
+		self.p_ecg_AQT = 0
+		#arteria
 		self.p_pa_sys=0
 		self.p_pa_dia=0
 		self.p_pa_med=0
-
+		#f. respiratoria
+		self.p_FR=0
+		#pvc
 		self.p_pvc=0
-
+		#Tª
 		self.p_temp=0
+		#CAP
+		self.p_PAPs=0
+		self.p_PAPd=0
+		self.p_PAPm=0
 		
+		#valores PiCCO
+
+		#tiempo
 		self.p_timestamp=0.0
 		
 		#ctiempo del cliente, no usado
 		self.p_pollingtime=""
 		
 		
-		
-		#tiempo basal
+		#tiempo absoluto y relativo del monitor
 		self.monitor_rel_time=0.0
 		self.monitor_abs_time=["",""]
 		
@@ -148,7 +170,9 @@ class ipv_data_source:
 	
 	def get_vital_signs(self):
 		ret_val=[]
-		#vital signs
+		#signos vitales
+
+		# PANI
 		ret_val.append(["NBP_sys", self.p_nbp_sys])
 		ret_val.append(["NBP_dias", self.p_nbp_dias])
 		ret_val.append(["NBP_mean", self.p_nbp_mean])
@@ -161,11 +185,27 @@ class ipv_data_source:
 		
 		ret_val.append(["NBP_time", temp_time])
 		
+		#SPO2
 		ret_val.append(["SPO2", self.p_spo2])
 		ret_val.append(["SPO2_pulse", self.p_spo2_pulse])
-		
+		#ret_val.append(["SPO2_perfusion",self.p_spo2_perfusion])
+
+		#ECG
 		ret_val.append(["ECG_pulse", self.p_ecg_pulse])
+		#ret_val.append(["ECG_EV", self.p_ecg_ev])
+		#ret_val.append(["ECG_I", self.p_ecg_I])
+		#ret_val.append(["ECG_II", self.p_ecg_II])
+		#ret_val.append(["ECG_III", self.p_ecg_III])
+		#ret_val.append(["ECG_aVR", self.p_ecg_aVR])
+		#ret_val.append(["ECG_aVL", self.p_ecg_aVL])
+		#ret_val.append(["ECG_aVF", self.p_ecg_aVF])
+		#ret_val.append(["ECG_V", self.p_ecg_V])
+		#ret_val.append(["ECG_MCL", self.p_ecg_MCL])
+		#ret_val.append(["ECG_QT", self.p_ecg_QT])
+		#ret_val.append(["ECG_QTc", self.p_ecg_QTc])
+		#ret_val.append(["ECG_AQT", self.p_ecg_AQT])
 		
+		# Tiempos
 		ret_val.append(["Time rel. since connection start: measurement", self.p_timestamp])
 		ret_val.append(["Time rel. since power-on to connection start", self.monitor_rel_time])
 		
@@ -176,25 +216,35 @@ class ipv_data_source:
 		
 		ret_val.append(["Connection start: time", temp_time])
 		
+		#Arteria
 		#ret_val.append(["Art_sys", self.p_pa_sys])
 		#ret_val.append(["Art_dias", self.p_pa_dia])
 		#ret_val.append(["Art_med", self.p_pa_med])
+		#frec respitatoria
+		#ret_val.append(["FR",self.p_FR])
+		#PVC
 		#ret_val.append(["PVC", self.p_pvc])
+		#Ta
 		#ret_val.append(["Temp", self.p_temp])
+		#CAP
+		#ret_val.append(["PAPs",self.p_PAPs])
+		#ret_val.append(["PAPd",self.p_PAPd])
+		#ret_val.append(["PAPm",self.p_PAPm])
+		#valores PiCCO
 		
 		return ret_val
 		
-	# Requests
+	# peticiones
 	def create_release_request(self):
 		release_request=bytearray(b'\x09\x18\xC1\x16\x61\x80\x30\x80\x02\x01\x01\xA0\x80\x62\x80\x80\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00')
 		return release_request
 	
 	def create_assoc_request(self):
-		#default Association request
+		#peticion de asociación
 		b=bytearray(b'\x0d\xff\x01\x28\x05\x08\x13\x01\x00\x16\x01\x02\x80\x00\x14\x02\x00\x02\xc1\xff\x01\x16\x31\x80\xa0\x80\x80\x01\x01\x00\x00\xa2\x80\xa0\x03\x00\x00\x01\xa4\x80\x30\x80\x02\x01\x01\x06\x04\x52\x01\x00\x01\x30\x80\x06\x02\x51\x01\x00\x00\x00\x00\x30\x80\x02\x01\x02\x06\x0c\x2a\x86\x48\xce\x14\x02\x01\x00\x00\x00\x01\x01\x30\x80\x06\x0c\x2a\x86\x48\xce\x14\x02\x01\x00\x00\x00\x02\x01\x00\x00\x00\x00\x00\x00\x61\x80\x30\x80\x02\x01\x01\xa0\x80\x60\x80\xa1\x80\x06\x0c\x2a\x86\x48\xce\x14\x02\x01\x00\x00\x00\x03\x01\x00\x00\xbe\x80\x28\x80\x06\x0c\x2a\x86\x48\xce\x14\x02\x01\x00\x00\x00\x01\x01\x02\x01\x02\x81\x82\x00\x80\x80\x00\x00\x00\x40\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x20\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x64\x00\x01\x00\x28\x80\x00\x00\x00\x00\x00\x0f\xa0\x00\x00\x05\xb0\x00\x00\x05\xb0\xff\xff\xff\xff\x60\x00\x00\x00\x00\x01\x00\x0c\xf0\x01\x00\x08\x8e\x00\x00\x00\x00\x00\x00\x00\x01\x02\x00\x34\x00\x06\x00\x30\x00\x01\x00\x21\x00\x00\x00\x01\x00\x01\x00\x06\x00\x00\x00\xc9\x00\x01\x00\x09\x00\x00\x00\x3c\x00\x01\x00\x05\x00\x00\x00\x10\x00\x01\x00\x2a\x00\x00\x00\x01\x00\x01\x00\x36\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
-		#alternativ 4e
+		#alternativa 4e
 		#b=bytearray(b'\x0d\xff\x01\x28\x05\x08\x13\x01\x00\x16\x01\x02\x80\x00\x14\x02\x00\x02\xc1\xff\x01\x16\x31\x80\xa0\x80\x80\x01\x01\x00\x00\xa2\x80\xa0\x03\x00\x00\x01\xa4\x80\x30\x80\x02\x01\x01\x06\x04\x52\x01\x00\x01\x30\x80\x06\x02\x51\x01\x00\x00\x00\x00\x30\x80\x02\x01\x02\x06\x0c\x2a\x86\x48\xce\x14\x02\x01\x00\x00\x00\x01\x01\x30\x80\x06\x0c\x2a\x86\x48\xce\x14\x02\x01\x00\x00\x00\x02\x01\x00\x00\x00\x00\x00\x00\x61\x80\x30\x80\x02\x01\x01\xa0\x80\x60\x80\xa1\x80\x06\x0c\x2a\x86\x48\xce\x14\x02\x01\x00\x00\x00\x03\x01\x00\x00\xbe\x80\x28\x80\x06\x0c\x2a\x86\x48\xce\x14\x02\x01\x00\x00\x00\x01\x01\x02\x01\x02\x81\x82\x00\x80\x80\x00\x00\x00\x40\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x20\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x64\x00\x01\x00\x28\x80\x00\x00\x00\x00\x00\x0f\xa0\x00\x00\x05\xb0\x00\x00\x05\xb0\xff\xff\xff\xff\x60\x00\x00\x00\x00\x01\x00\x0c\xf0\x01\x00\x08\x4e\x00\x00\x00\x00\x00\x00\x00\x01\x02\x00\x34\x00\x06\x00\x30\x00\x01\x00\x21\x00\x00\x00\x01\x00\x01\x00\x06\x00\x00\x00\xc9\x00\x01\x00\x09\x00\x00\x00\x3c\x00\x01\x00\x05\x00\x00\x00\x10\x00\x01\x00\x2a\x00\x00\x00\x01\x00\x01\x00\x36\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
-		#alternativ 40
+		#alternativa 40
 		#b=bytearray(b'\x0d\xff\x01\x28\x05\x08\x13\x01\x00\x16\x01\x02\x80\x00\x14\x02\x00\x02\xc1\xff\x01\x16\x31\x80\xa0\x80\x80\x01\x01\x00\x00\xa2\x80\xa0\x03\x00\x00\x01\xa4\x80\x30\x80\x02\x01\x01\x06\x04\x52\x01\x00\x01\x30\x80\x06\x02\x51\x01\x00\x00\x00\x00\x30\x80\x02\x01\x02\x06\x0c\x2a\x86\x48\xce\x14\x02\x01\x00\x00\x00\x01\x01\x30\x80\x06\x0c\x2a\x86\x48\xce\x14\x02\x01\x00\x00\x00\x02\x01\x00\x00\x00\x00\x00\x00\x61\x80\x30\x80\x02\x01\x01\xa0\x80\x60\x80\xa1\x80\x06\x0c\x2a\x86\x48\xce\x14\x02\x01\x00\x00\x00\x03\x01\x00\x00\xbe\x80\x28\x80\x06\x0c\x2a\x86\x48\xce\x14\x02\x01\x00\x00\x00\x01\x01\x02\x01\x02\x81\x82\x00\x80\x80\x00\x00\x00\x40\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x20\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x64\x00\x01\x00\x28\x80\x00\x00\x00\x00\x00\x0f\xa0\x00\x00\x05\xb0\x00\x00\x05\xb0\xff\xff\xff\xff\x60\x00\x00\x00\x00\x01\x00\x0c\xf0\x01\x00\x08\x40\x00\x00\x00\x00\x00\x00\x00\x01\x02\x00\x34\x00\x06\x00\x30\x00\x01\x00\x21\x00\x00\x00\x01\x00\x01\x00\x06\x00\x00\x00\xc9\x00\x01\x00\x09\x00\x00\x00\x3c\x00\x01\x00\x05\x00\x00\x00\x10\x00\x01\x00\x2a\x00\x00\x00\x01\x00\x01\x00\x36\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
 	
 		return b
@@ -210,25 +260,25 @@ class ipv_data_source:
 		n=0
 		if b[:6]==bytearray(b'\xe1\x00\x00\x02\x00\x01'):
 			n=1
-			#get time since last assoc
+			#tiempo desde la ultima asociacion
 			#self.assoc_rel_time=self.decode_rel_time(b[20:20+4])
-			#get base time
+			#tiempo basal
 			self.get_basetime_from_MDS_attr_lst(b[34:])
 		return n
 	
 	def create_MDS_result_from_MDS_event(self, b):
-		#extract relative_time
+		#extrae relative_time
 		d_l=list(struct.unpack('!I',b[20:24]))
-		#increase relative_time
+		#incrementa relative_time
 		e_time=struct.pack('!I',d_l[0]+50)
-		#Construct MDS_result bytearray:
+		# MDS_result bytearray:
 		#Session_id
 		mds_result=b[:4]
 		#head
 		mds_result=mds_result+bytearray(b'\x00\x02\x00\x14')
 		mds_result=mds_result+bytearray(b'\x00\x01\x00\x01\x00\x0e')
 		mds_result=mds_result+bytearray(b'\x00\x21\x00\x00\x00\x00')
-		#insert new timestamp
+		#nuevo timestamp
 		mds_result=mds_result+e_time
 		#Flags
 		mds_result=mds_result+bytearray(b'\x0d\x06\x00\x00')
@@ -254,7 +304,7 @@ class ipv_data_source:
 		#poll number>counter
 		spr=spr+struct.pack('!H', p_count)
 		spr=spr+bytearray(b'\x00\x01')
-		#metrics (1) or demogrphics (2)
+		#mvitales (1) o demogrphics (2)
 		if n==1:
 			spr=spr+bytearray(b'\x00\x06')
 		else:
@@ -311,6 +361,7 @@ class ipv_data_source:
 		#art press sys: 18961 dia:18962 mean:18963
 		#temp: 19272
 		#bis: 61518
+
 		print("-------Inicio SNIFF--------")
 		print("etiqueta dato:")
 		print(p_id)
@@ -333,31 +384,70 @@ class ipv_data_source:
 			self.p_spo2=observ_val
 		if p_id==18466:
 			self.p_spo2_pulse=observ_val
+		if p_id==19376:
+			self.p_spo2_perfusion=observ_val
 		#ecg
 		if p_id==16770:
 			self.p_ecg_pulse=observ_val
-		#art_press (or 18967 ???)
+		if p_id==16993:
+			self.p_ecg_ev= observ_val
+		if p_id==769:
+			self.p_ecg_I= observ_val
+		if p_id==770:
+			self.p_ecg_II= observ_val
+		if p_id==829:
+			self.p_ecg_III= observ_val
+		if p_id==830:
+			self.p_ecg_aVR= observ_val
+		if p_id==831:
+			self.p_ecg_aVL= observ_val
+		if p_id==832:
+			self.p_ecg_aVF= observ_val
+		if p_id==835:
+			self.p_ecg_V = observ_val
+		if p_id==843:
+			self.p_ecg_MCL= observ_val
+		if p_id==16160:
+			self.p_ecg_QT=observ_val
+		if p_id==16164:
+			self.p_ecg_QTc= observ_val
+		if p_id==61782:
+			self.p_ecg_AQT= observ_val
+		#art
 		if p_id==18961:
 			self.p_pa_sys=observ_val
 		if p_id==18962:
 			self.p_pa_dia=observ_val
 		if p_id==18963:
 			self.p_pa_med=observ_val
-		
+		#f. respiratoria
+		if p_id==20490:
+			self.p_FR=observ_val
+		#pvc
+		if p_id==19015:
+			self.p_pvc=observ_val
 		#temp
 		if p_id==19272:
 			self.p_temp=observ_val
+		#CAP
+		if p_id==18973:
+			self.p_PAPs=observ_val
+		if p_id==18974:
+			self.p_PAPd=observ_val
+		if p_id==18975:
+			self.p_PAPm=observ_val
+		#valores PiCCO
 	
 	def check_id(self, objid, b, handle_id=0):
-		#handel management for assigning timestamps to measurements
+		#asignar tm¡imestam a mediciones
 		# self.vital_timestamps
 		
-		#Patient data
+		#Demograficos
 		
 		#id
 		if objid==2394:
 			self.p_id=b[2:].decode("utf-8")
-		#gender
+		#sexo
 		if objid==2401:
 			if list(struct.unpack('!H', b))[0]==1:
 				self.p_gender="Hombre"
@@ -365,43 +455,43 @@ class ipv_data_source:
 				self.p_gender="Mujer"
 			else:
 				self.p_gender="?"
-		#birth
+		#binacimiento
 		if objid==2392:
 			self.p_birth=self.decode_absolut_time(b)[0]
 		
-		#prename
+		#nombre
 		if objid==2397:
 			self.p_pre_name=b[2:].decode("utf-8")
 		
-		#name
+		#apellido
 		if objid==2396:
 			self.p_name=b[2:].decode("utf-8")
 			
-		#height
+		#altura
 		if objid==2524:
 			self.p_hight=self.decode_float(b)
-		#weight
+		#peso
 		if objid==2527:
 			self.p_weight=self.decode_float(b)
 		#bsa
 		if objid==2390:
 			self.p_bsa=self.decode_float(b)
 		
-		#age
+		#edad
 		if objid==2520:
 			self.p_age=self.decode_float(b)
 		
 		#=============================================================
-		#check vital signs
+		#check signos vitales
 	
-		#label string
+		#label 
 		if objid==2343:
 			pass
-		#observation
+		#observacion
 		if objid==2384:
 			val_fl=self.decode_float(b[6:10])
 			self.extract_physoi_id(list(struct.unpack('!H',b[:2]))[0], val_fl, handle_id)
-		#compound observation
+		#observacion compuesta
 		if objid==2379:
 			comp_count=list(struct.unpack('!H',b[:2]))[0]
 			comp_len=list(struct.unpack('!H',b[2:4]))[0]
@@ -412,12 +502,12 @@ class ipv_data_source:
 				self.extract_physoi_id(list(struct.unpack('!H',comp_data[:2]))[0], val_fl, handle_id)
 				comp_data=comp_data[10:]
 				n_comp=n_comp+1
-		#timestamp absolute
+		#timestamp absoluta
 		if objid==2448:
 			a_tm=self.decode_absolut_time(b)
 			a_tm.append(handle_id)
 			self.vital_timestamps.append(a_tm)
-		#timestamp relative
+		#timestamp relativa
 		if objid==2447:
 			rel_tm=self.decode_rel_time(b)
 		
@@ -436,7 +526,7 @@ class ipv_data_source:
 	
 	def decode_absolut_time(self, b):
 		abs_tm=[]
-		#date
+		#fecha
 		time_res=""
 		time_res=time_res+str(b[3]>>4)
 		time_res=time_res+str(b[3]&0x0f)
@@ -449,7 +539,7 @@ class ipv_data_source:
 		time_res=time_res+str(b[1]>>4)
 		time_res=time_res+str(b[1]&0x0f)
 		abs_tm.append(time_res)
-		#time
+		#hora
 		time_res=""
 		time_res=time_res+str(b[4]>>4)
 		time_res=time_res+str(b[4]&0x0f)
