@@ -71,13 +71,13 @@ last_NBP_time=datetime.strptime("01.01.1990 00:00:00",'%d.%m.%Y %H:%M:%S')
 
 try:
 	while True:
-		#get new patient data
+		#obtiene datos
 		temp_l=dev_1.get_vital_signs()
 		###########################################
 		#RR/SaO2
-		#get time in minutes since connection started
+		#tiempo en minutos desde que comenzó la conexión
 		diff_time=((temp_l[8][1]*0.000125)/60)-((temp_l[9][1]*0.000125)/60)
-		#if new data is available: plot data
+		#si hay datos nuevos: recoger
 		if(diff_time!=last_vital_time):
 			plot_v.plot_new_values(diff_time, SaO2=float(temp_l[5][1]), Pulse=float(temp_l[6][1]))
 			last_vital_time=diff_time
