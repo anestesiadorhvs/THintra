@@ -4,6 +4,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import json
+import os
 from datetime import datetime
 from time import sleep
 from  ipv_data_source import ipv_data_source as device
@@ -30,8 +32,30 @@ class plot_vital_signs:
 		self.last_tm_sa=0
 		self.start_plot_pl=True
 		self.start_plot_sa=True
-		
-	
+
+	#escribe los valores en un archivo json	
+	def write_to_json(time_stamp, RRsys, RRdias, Pulse, SaO2, filename='vital_signs.json'):
+		data = {
+			'time_stamp': time_stamp,
+			'values': {
+				'RRsys': RRsys,
+				'RRdias': RRdias,
+				'Pulse': Pulse,
+				'SaO2': SaO2
+			}
+		}
+		#hay que definir filename
+		if os.path.exists(filename):
+			with open(filename, 'r') as file:
+				file_data = json.load(file)
+			file_data.append(data)
+		else:
+			file_data = [data]
+			
+		with open(filename, 'w') as file:
+			json.dump(file_data, file, indent=4)
+
+	#muestra los valores en la gráfica
 	def plot_new_values(self, time_stamp, RRsys=0, RRdias=0, Pulse=0, SaO2=0):
 		if(((RRsys > 0)and(RRdias > 0))and((RRsys < 300)and(RRdias < 300))):
 			plt.plot([time_stamp], [RRsys], 'rv', [time_stamp], [RRdias], 'r^')
