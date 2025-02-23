@@ -201,22 +201,22 @@ class ipv_data_source:
 		#SPO2
 		ret_val.append(["SPO2", self.p_spo2])
 		ret_val.append(["SPO2_pulse", self.p_spo2_pulse])
-		#ret_val.append(["SPO2_perfusion",self.p_spo2_perfusion])
+		ret_val.append(["SPO2_perfusion",self.p_spo2_perfusion])
 
 		#ECG
 		ret_val.append(["ECG_pulse", self.p_ecg_pulse])
-		#ret_val.append(["ECG_EV", self.p_ecg_ev])
-		#ret_val.append(["ECG_I", self.p_ecg_I])
-		#ret_val.append(["ECG_II", self.p_ecg_II])
-		#ret_val.append(["ECG_III", self.p_ecg_III])
-		#ret_val.append(["ECG_aVR", self.p_ecg_aVR])
-		#ret_val.append(["ECG_aVL", self.p_ecg_aVL])
-		#ret_val.append(["ECG_aVF", self.p_ecg_aVF])
-		#ret_val.append(["ECG_V", self.p_ecg_V])
-		#ret_val.append(["ECG_MCL", self.p_ecg_MCL])
-		#ret_val.append(["ECG_QT", self.p_ecg_QT])
-		#ret_val.append(["ECG_QTc", self.p_ecg_QTc])
-		#ret_val.append(["ECG_AQT", self.p_ecg_AQT])
+		ret_val.append(["ECG_EV", self.p_ecg_ev])
+		ret_val.append(["ECG_I", self.p_ecg_I])
+		ret_val.append(["ECG_II", self.p_ecg_II])
+		ret_val.append(["ECG_III", self.p_ecg_III])
+		ret_val.append(["ECG_aVR", self.p_ecg_aVR])
+		ret_val.append(["ECG_aVL", self.p_ecg_aVL])
+		ret_val.append(["ECG_aVF", self.p_ecg_aVF])
+		ret_val.append(["ECG_V", self.p_ecg_V])
+		ret_val.append(["ECG_MCL", self.p_ecg_MCL])
+		ret_val.append(["ECG_QT", self.p_ecg_QT])
+		ret_val.append(["ECG_QTc", self.p_ecg_QTc])
+		ret_val.append(["ECG_AQT", self.p_ecg_AQT])
 		
 		# Tiempos
 		ret_val.append(["Time rel. since connection start: measurement", self.p_timestamp])
@@ -230,38 +230,38 @@ class ipv_data_source:
 		ret_val.append(["Connection start: time", temp_time])
 		
 		#Arteria
-		#ret_val.append(["Art_sys", self.p_pa_sys])
-		#ret_val.append(["Art_dias", self.p_pa_dia])
-		#ret_val.append(["Art_med", self.p_pa_med])
+		ret_val.append(["Art_sys", self.p_pa_sys])
+		ret_val.append(["Art_dias", self.p_pa_dia])
+		ret_val.append(["Art_med", self.p_pa_med])
 		
 		#frec respitatoria
-		#ret_val.append(["FR",self.p_FR])
+		ret_val.append(["FR",self.p_FR])
 		
 		#PVC
-		#ret_val.append(["PVC", self.p_pvc])
+		ret_val.append(["PVC", self.p_pvc])
 		
 		#Ta
-		#ret_val.append(["Temp", self.p_temp])
+		ret_val.append(["Temp", self.p_temp])
 		
 		#CAP
-		#ret_val.append(["PAPs",self.p_PAPs])
-		#ret_val.append(["PAPd",self.p_PAPd])
-		#ret_val.append(["PAPm",self.p_PAPm])
+		ret_val.append(["PAPs",self.p_PAPs])
+		ret_val.append(["PAPd",self.p_PAPd])
+		ret_val.append(["PAPm",self.p_PAPm])
 		
 		#valores PiCCO
-		#ret_val.append(["GCtd",self.p_GCtd])
-		#ret_val.append(["Tc",self.p_Tc])
-		#ret_val.append(["GCc",self.p_GCc])
-		#ret_val.append(["ICc",self.p_ICc])
-		#ret_val.append(["DPmax",self.p_DPmax])
-		#ret_val.append(["IS",self.p_IS])
-		#ret_val.append(["VS",self.p_VS])
-		#ret_val.append(["VSIT",self.p_VSIT])
-		#ret_val.append(["ELLW",self.p_ELLW])
-		#ret_val.append(["VTDG",self.p_VTDG])
-		#ret_val.append(["FE",self.p_FE])
-		#ret_val.append(["PVPi",self.p_PVPi])
-		#ret_val.append(["VVS",self.p_VVS])
+		ret_val.append(["GCtd",self.p_GCtd])
+		ret_val.append(["Tc",self.p_Tc])
+		ret_val.append(["GCc",self.p_GCc])
+		ret_val.append(["ICc",self.p_ICc])
+		ret_val.append(["DPmax",self.p_DPmax])
+		ret_val.append(["IS",self.p_IS])
+		ret_val.append(["VS",self.p_VS])
+		ret_val.append(["VSIT",self.p_VSIT])
+		ret_val.append(["ELLW",self.p_ELLW])
+		ret_val.append(["VTDG",self.p_VTDG])
+		ret_val.append(["FE",self.p_FE])
+		ret_val.append(["PVPi",self.p_PVPi])
+		ret_val.append(["VVS",self.p_VVS])
 
 		
 		return ret_val
