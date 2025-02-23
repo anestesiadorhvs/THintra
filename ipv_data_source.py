@@ -41,18 +41,18 @@ class ipv_data_source:
 		
 		# definicion signos vitales
 		#PANI
-		self.p_nbp_sys=0
-		self.p_nbp_dias=0
-		self.p_nbp_mean=0
-		self.p_nbp_pulse=0
+		self.p_nbp_sys = 0
+		self.p_nbp_dias = 0
+		self.p_nbp_mean = 0
+		self.p_nbp_pulse = 0
 		self.p_nbp_time=["",""]
 		#spo2
 		self.p_spo2=0
 		self.p_spo2_pulse = 0
 		self.p_spo2_perfusion = 0
 		#ecg		
-		self.p_ecg_pulse=0
-		self.p_ecg_ev=0
+		self.p_ecg_pulse = 0
+		self.p_ecg_ev = 0
 		self.p_ecg_I = 0
 		self.p_ecg_II = 0
 		self.p_ecg_III = 0
@@ -65,21 +65,34 @@ class ipv_data_source:
 		self.p_ecg_QTc = 0
 		self.p_ecg_AQT = 0
 		#arteria
-		self.p_pa_sys=0
-		self.p_pa_dia=0
-		self.p_pa_med=0
+		self.p_pa_sys = 0
+		self.p_pa_dia = 0
+		self.p_pa_med = 0
 		#f. respiratoria
-		self.p_FR=0
+		self.p_FR = 0
 		#pvc
-		self.p_pvc=0
+		self.p_pvc = 0
 		#Tª
-		self.p_temp=0
+		self.p_temp = 0
 		#CAP
-		self.p_PAPs=0
-		self.p_PAPd=0
-		self.p_PAPm=0
+		self.p_PAPs = 0
+		self.p_PAPd = 0
+		self.p_PAPm = 0
 		
 		#valores PiCCO
+		self.p_GCtd = 0 #gasto por termodilucion
+		self.p_Tc = 0 #Tª central
+		self.p_GCc = 0 # gasto continuo
+		self.p_ICc = 0 # indice cardiaco continuo	
+		self.p_DPmax=0 #dpmax
+		self.p_IS = 0 #indice sistolico
+		self.p_VS = 0 #volumen sistolico
+		self.p_VSIT = 0 #volumen sistolico indexado
+		self.p_ELLW = 0 #agua extravascular
+		self.p_VTDG = 0 #volumen telediastolico global
+		self.p_FE = 0 #fraccion de eyeccion
+		self.p_PVPi = 0 #presion variación? indexada
+		self.p_VVS = 0 #variacion volumane sistólico
 
 		#tiempo
 		self.p_timestamp=0.0
@@ -220,17 +233,36 @@ class ipv_data_source:
 		#ret_val.append(["Art_sys", self.p_pa_sys])
 		#ret_val.append(["Art_dias", self.p_pa_dia])
 		#ret_val.append(["Art_med", self.p_pa_med])
+		
 		#frec respitatoria
 		#ret_val.append(["FR",self.p_FR])
+		
 		#PVC
 		#ret_val.append(["PVC", self.p_pvc])
+		
 		#Ta
 		#ret_val.append(["Temp", self.p_temp])
+		
 		#CAP
 		#ret_val.append(["PAPs",self.p_PAPs])
 		#ret_val.append(["PAPd",self.p_PAPd])
 		#ret_val.append(["PAPm",self.p_PAPm])
+		
 		#valores PiCCO
+		#ret_val.append(["GCtd",self.p_GCtd])
+		#ret_val.append(["Tc",self.p_Tc])
+		#ret_val.append(["GCc",self.p_GCc])
+		#ret_val.append(["ICc",self.p_ICc])
+		#ret_val.append(["DPmax",self.p_DPmax])
+		#ret_val.append(["IS",self.p_IS])
+		#ret_val.append(["VS",self.p_VS])
+		#ret_val.append(["VSIT",self.p_VSIT])
+		#ret_val.append(["ELLW",self.p_ELLW])
+		#ret_val.append(["VTDG",self.p_VTDG])
+		#ret_val.append(["FE",self.p_FE])
+		#ret_val.append(["PVPi",self.p_PVPi])
+		#ret_val.append(["VVS",self.p_VVS])
+
 		
 		return ret_val
 		
@@ -437,7 +469,33 @@ class ipv_data_source:
 		if p_id==18975:
 			self.p_PAPm=observ_val
 		#valores PiCCO
-	
+		if p_id==19204:
+			self.p_GCtd=observ_val
+		if p_id==57364:
+			self.p_Tc=observ_val
+		if p_id==19420:		
+			self.p_GCc=observ_val	
+		if p_id==61511:
+			self.p_ICc=observ_val
+		if p_id==19493:
+			self.p_DPmax=observ_val
+		if p_id==61512:
+			self.p_IS=observ_val
+		if p_id==19332:
+			self.p_VS=observ_val
+		if p_id==61504:
+			self.p_VSIT=observ_val
+		if p_id==61506:
+			self.p_ELLW=observ_val
+		if p_id==61508:
+			self.p_VTDG=observ_val
+		if p_id==61701:
+			self.p_FE=observ_val
+		if p_id==61702:
+			self.p_PVPi=observ_val
+		if p_id==61513:
+			self.p_VVS=observ_val
+
 	def check_id(self, objid, b, handle_id=0):
 		#asignar tm¡imestam a mediciones
 		# self.vital_timestamps

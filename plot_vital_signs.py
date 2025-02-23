@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import json
 import os
+import time
 from datetime import datetime
 from time import sleep
 from  ipv_data_source import ipv_data_source as device
@@ -116,6 +117,8 @@ try:
 			plot_v.plot_new_values(calc_time, RRsys=float(temp_l[0][1]), RRdias=float(temp_l[1][1]))
 			last_NBP_time=v
 		plt.pause(2)
+		#Retafdo de 5 seg entre mediciones
+		# time.sleep(5)
 		#plt.show()
 #except (KeyboardInterrupt, SystemExit):
 #	raise
